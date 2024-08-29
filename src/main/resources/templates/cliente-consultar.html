@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários Cadastrados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #282c34;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #3a3f47;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 700px;
+            box-sizing: border-box;
+        }
+        h1 {
+            margin-bottom: 30px;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px; /* Espaço para o link "Voltar" */
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #555;
+            text-align: left;
+            font-size: 16px;
+        }
+        .Buscar{
+            font-size: 15px;
+        }
+        th {
+            background-color: #444;
+        }
+        tr:nth-child(even) {
+            background-color: #3a3f47;
+        }
+        tr:nth-child(odd) {
+            background-color: #484e57;
+        }
+        a {
+            display: inline-block;
+            font-size: 16px;
+            color: #61dafb;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid #61dafb;
+            transition: background-color 0.3s, color 0.3s;
+            text-align: center;
+        }
+        a:hover {
+            background-color: #61dafb;
+            color: #282c34;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Usuários Cadastrados</h1>
+        <h1 class="Buscar">Buscar usuarios</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>CPF</th>
+                    <th>Altura</th>
+                    <th>Peso</th>
+                    <th>Renda Pessoal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Exemplo de usuários cadastrados -->
+                <tr>
+                    <td>Karlos Eduardo</td>
+                    <td>30</td>
+                    <td>123.456.789-00</td>
+                    <td>1.75 m</td>
+                    <td>70 kg</td>
+                    <td>R$ 3.000,00</td>
+                </tr>
+                <tr>
+                    <td>Maria Luiza</td>
+                    <td>25</td>
+                    <td>987.654.321-00</td>
+                    <td>1.68 m</td>
+                    <td>60 kg</td>
+                    <td>R$ 2.500,00</td>                 
+                </tr>
+                <!-- Adicione mais usuários conforme necessário -->
+            </tbody>
+        </table>
+        <a href="index.html">Voltar</a>
+    </div>
+</body>
+</html>
