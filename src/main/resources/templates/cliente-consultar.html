@@ -64,7 +64,7 @@
         }
 
         /* Estilo do campo de busca */
-        input[type="text"] {
+        .input-desing {
             width: calc(40% - 22px);
             padding: 10px;
             border-radius: 5px;
@@ -114,7 +114,12 @@
 <div class="container">
     <h1>Clientes Cadastrados</h1>
     <form action="/clientes/buscar" method="get">
-        <input type="text" name="nome" placeholder="Buscar por nome" required>
+        <label for="searchType">Consultar por:</label>
+        <select id="searchType" name="tipoBusca" onchange="mudarCampoBusca()">
+            <option value="id">ID</option>
+            <option value="nome">Nome</option>
+        </select>
+        <input type="number" id="searchInput" name="valorBusca" class="input-desing" placeholder="Digite o ID" required>
         <input type="submit" value="Buscar">
     </form>
     <table>
@@ -143,5 +148,19 @@
     </table>
     <a href="/">Voltar</a>
 </div>
+<script>
+    function mudarCampoBusca() {
+        const searchType = document.getElementById('searchType').value;
+        const searchInput = document.getElementById('searchInput');
+
+        if (searchType === 'id') {
+            searchInput.placeholder = 'Digite o ID';
+            searchInput.setAttribute('type', 'number');
+        } else {
+            searchInput.placeholder = 'Digite o Nome';
+            searchInput.setAttribute('type', 'text');
+        }
+    }
+</script>
 </body>
 </html>
