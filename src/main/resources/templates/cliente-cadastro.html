@@ -79,34 +79,59 @@
             background-color: #61dafb;
             color: #282c34;
         }
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .success {
+            background-color: #4caf50;
+            color: white;
+        }
+        .error {
+            background-color: #f44336;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Cadastro</h1>
-        <form method="post" action="/cadastrar-cliente/cadastrar" >
-            <label for="nome">Nome Completo</label>
-            <input type="text" id="nome" name="nome" required>
-            
-            <label for="idade">Idade</label>
-            <input type="number" id="idade" name="idade" required>
-            
-            <label for="CPF">CPF</label>
-            <input type="text" id="cpf" name="cpf" required>
-            
-            <label for="altura">Altura (em cm)</label>
-            <input type="number" id="altura" name="altura" required>
+<div class="container">
+    <h1>Cadastro</h1>
 
-            <label for="peso">Peso (em kg)</label>
-            <input type="number" id="peso" name="peso" required>
-
-            <label for="rendaPessoal">Renda Pessoal</label>
-            <input type="text" id="rendaPessoal" name="rendaPessoal" required>
-
-            <input type="submit" value="Cadastrar">
-
-            <a href="/">Voltar</a>
-        </form>
+    <!-- Mensagem de sucesso -->
+    <div th:if="${successMessage}" class="message success">
+        <p th:text="${successMessage}"></p>
     </div>
+
+    <!-- Mensagem de erro -->
+    <div th:if="${errorMessage}" class="message error">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <form method="post" action="/cadastrar-cliente/cadastrar">
+        <label for="nome">Nome Completo</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="idade">Idade</label>
+        <input type="number" id="idade" name="idade" required>
+
+        <label for="CPF">CPF</label>
+        <input type="text" id="cpf" name="cpf" required>
+
+        <label for="altura">Altura (em cm)</label>
+        <input type="number" id="altura" name="altura" required>
+
+        <label for="peso">Peso (em kg)</label>
+        <input type="number" id="peso" name="peso" required>
+
+        <label for="rendaPessoal">Renda Pessoal</label>
+        <input type="text" id="rendaPessoal" name="rendaPessoal" required>
+
+        <input type="submit" value="Cadastrar">
+
+        <a href="/">Voltar</a>
+    </form>
+</div>
 </body>
 </html>

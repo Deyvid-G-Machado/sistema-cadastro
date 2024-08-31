@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuários Cadastrados</title>
+    <title>Clientes Cadastrados</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,6 +16,7 @@
             min-height: 100vh;
             margin: 0;
         }
+
         .container {
             background-color: #3a3f47;
             padding: 40px;
@@ -24,7 +25,9 @@
             width: 100%;
             max-width: 700px;
             box-sizing: border-box;
+            overflow-x: auto;
         }
+
         h1 {
             margin-bottom: 30px;
             font-size: 24px;
@@ -32,29 +35,63 @@
             letter-spacing: 2px;
             text-align: center;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px; /* Espaço para o link "Voltar" */
+            margin-bottom: 20px;
+            table-layout: fixed;
         }
+
         th, td {
             padding: 12px;
             border: 1px solid #555;
             text-align: left;
             font-size: 16px;
+            word-wrap: break-word;
         }
-        .Buscar{
-            font-size: 15px;
-        }
+
         th {
             background-color: #444;
         }
+
         tr:nth-child(even) {
             background-color: #3a3f47;
         }
+
         tr:nth-child(odd) {
             background-color: #484e57;
         }
+
+        /* Estilo do campo de busca */
+        input[type="text"] {
+            width: calc(40% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            margin-bottom: 20px;
+            background-color: #3a3f47;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        /* Estilo do botão de busca */
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #61dafb;
+            color: #282c34;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            margin-left: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #21a1f1;
+        }
+
         a {
             display: inline-block;
             font-size: 16px;
@@ -66,6 +103,7 @@
             transition: background-color 0.3s, color 0.3s;
             text-align: center;
         }
+
         a:hover {
             background-color: #61dafb;
             color: #282c34;
@@ -73,42 +111,37 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Usuários Cadastrados</h1>
-        <h1 class="Buscar">Buscar usuarios</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Idade</th>
-                    <th>CPF</th>
-                    <th>Altura</th>
-                    <th>Peso</th>
-                    <th>Renda Pessoal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Exemplo de usuários cadastrados -->
-                <tr>
-                    <td>Karlos Eduardo</td>
-                    <td>30</td>
-                    <td>123.456.789-00</td>
-                    <td>1.75 m</td>
-                    <td>70 kg</td>
-                    <td>R$ 3.000,00</td>
-                </tr>
-                <tr>
-                    <td>Maria Luiza</td>
-                    <td>25</td>
-                    <td>987.654.321-00</td>
-                    <td>1.68 m</td>
-                    <td>60 kg</td>
-                    <td>R$ 2.500,00</td>                 
-                </tr>
-                <!-- Adicione mais usuários conforme necessário -->
-            </tbody>
-        </table>
-        <a href="index.html">Voltar</a>
-    </div>
+<div class="container">
+    <h1>Clientes Cadastrados</h1>
+    <form action="/clientes/buscar" method="get">
+        <input type="text" name="nome" placeholder="Buscar por nome" required>
+        <input type="submit" value="Buscar">
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>Código do cliente</th>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>CPF</th>
+            <th>Altura</th>
+            <th>Peso</th>
+            <th>Renda Pessoal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cliente : ${clientes}">
+            <td th:text="${cliente.id}">Código</td>
+            <td th:text="${cliente.nome}">Nome</td>
+            <td th:text="${cliente.idade}">Idade</td>
+            <td th:text="${cliente.cpf}">CPF</td>
+            <td th:text="${cliente.altura}">Altura</td>
+            <td th:text="${cliente.peso}">Peso</td>
+            <td th:text="${cliente.rendaPessoal}">Renda Pessoal</td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/">Voltar</a>
+</div>
 </body>
 </html>
