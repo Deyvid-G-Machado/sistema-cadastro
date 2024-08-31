@@ -33,12 +33,6 @@ public class ClienteController {
         return "cliente-cadastro";
     }
 
-    /*@PostMapping("/cadastrar-cliente/cadastrar")
-    public String criar(Cliente cliente) {
-        clienteRepository.save(cliente);
-        return "redirect:/";
-    }*/
-
     @GetMapping("/clientes")
     public String listarClientes(Model model) {
         List<Cliente> clientes = clienteRepository.findAll();
@@ -47,8 +41,13 @@ public class ClienteController {
     }
 
     @GetMapping("/clientes/buscar")
-    public String buscarClientes(@RequestParam("nome") String nome, Model model) {
-        List<Cliente> clientes = clienteRepository.findByNomeContainingIgnoreCase(nome);
+    public String buscarClientes(@RequestParam("tipoBusca") String tipoBusca, @RequestParam("valorBusca") String valorBusca, Model model) {
+        List<Cliente> clientes;
+        if (tipoBusca.equals("id")) {
+            clientes = this.clienteRepository.buscarId(Integer.parseInt(valorBusca));
+        } else {
+            clientes = clienteRepository.findByNomeContainingIgnoreCase(valorBusca);
+        }
         model.addAttribute("clientes", clientes);
         return "cliente-consultar";
     }
