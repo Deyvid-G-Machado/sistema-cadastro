@@ -130,7 +130,7 @@
             <option value="id">Código</option>
             <option value="nome">Nome</option>
         </select>
-        <input type="number" id="searchInput" name="valorBusca" class="input-desing" placeholder="Digite o ID" required>
+        <input type="number" id="searchInput" name="valorBusca" class="input-desing" placeholder="Digite o ID" required min="1" oninput="validity.valid||(value='');">
         <input type="submit" value="Buscar">
     </form>
     <table>
