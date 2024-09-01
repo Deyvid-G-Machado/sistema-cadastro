@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cálculo IMC</title>
+    <title>Calcular IMC</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,36 +63,7 @@
             background-color: #484e57;
         }
 
-        /* Estilo do campo de busca */
-        .input-desing {
-            width: calc(40% - 22px);
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #555;
-            margin-bottom: 20px;
-            background-color: #3a3f47;
-            color: #fff;
-            font-size: 16px;
-        }
-
-        /* Estilo do botão de busca */
-        input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #61dafb;
-            color: #282c34;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-            margin-left: 10px;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #21a1f1;
-        }
-
-        a {
+        .button {
             display: inline-block;
             font-size: 16px;
             color: #61dafb;
@@ -100,49 +71,83 @@
             padding: 10px 20px;
             border-radius: 5px;
             border: 1px solid #61dafb;
+            background-color: #3a3f47;
             transition: background-color 0.3s, color 0.3s;
             text-align: center;
         }
 
-        a:hover {
+        .button:hover {
             background-color: #61dafb;
             color: #282c34;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .input-group input[type="text"] {
+            width: calc(40% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #3a3f47;
+            color: #fff;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Cálculo IMC</h1>
-
-    <form action="/clientes/cliente-calcularIMC" method="get">
-        <input type="number" id="imcInput" name="clienteId" class="input-desing" placeholder="Digite o código do Cliente" required>
-        <input type="submit" value="Calcular IMC">
+    <h1>Calcular IMC</h1>
+    <form th:action="@{/clientes/calcularIMC}" method="get">
+        <div class="input-group">
+            Código do Cliente:
+            <input type="text" id="clienteId" name="clienteId" required>
+            <input type="submit" class="button" value="Calcular IMC">
+        </div>
     </form>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Código do cliente</th>
-            <th>Nome</th>
-            <th>IMC</th>
-            <th>Classificação</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${cliente != null}">
-            <td th:text="${cliente.id}">Código</td>
-            <td th:text="${cliente.nome}">Nome</td>
-            <td th:text="${imc}">IMC</td>
-            <td th:text="${classificacao}">Classificação</td>
-        </tr>
-        <tr th:if="${errorMessage != null}">
-            <td colspan="4" th:text="${errorMessage}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="result" th:if="${cliente != null}">
+        <table>
+            <thead>
+            <tr>
+                <th>Código do Cliente</th>
+                <th>Nome</th>
+                <th>Peso</th>
+                <th>Altura</th>
+                <th>IMC</th>
+                <th>Classificação</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${cliente.id}">Código</td>
+                <td th:text="${cliente.nome}">Nome</td>
+                <td th:text="${cliente.peso}">Peso</td>
+                <td th:text="${cliente.altura}">Altura</td>
+                <td th:text="${imc}">IMC</td>
+                <td th:text="${classificacao}">Classificação</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <a href="/">Voltar</a>
+    <div class="result" th:if="${errorMessage != null}">
+        <p class="error" th:text="${errorMessage}"></p>
+    </div>
+
+    <a class="button" href="/">Voltar</a>
 </div>
-
 </body>
 </html>

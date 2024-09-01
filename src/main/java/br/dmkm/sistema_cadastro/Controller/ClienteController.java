@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.AttributedString;
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Controller
@@ -26,10 +27,18 @@ public class ClienteController {
 
     @PostMapping("/cadastrar-cliente/cadastrar")
     public String criar(Cliente cliente, Model model) {
+        if (cliente.getPeso() == null || cliente.getPeso() <= 0 ||  cliente.getAltura() == null || cliente.getAltura() <= 0) {
+            model.addAttribute("errorMessage", "Altura e Peso precisam ser diferentes de zero(0).");
+            return "cliente-cadastro";
+        }
+        if(cliente.getRendaPessoal() == null || cliente.getRendaPessoal() <=0){
+            model.addAttribute("errorMessage", "Renda precisa ser diferente de zero(0)");
+            return "cliente-cadastro";
+        }
+
         try {
             Cliente savedCliente = clienteRepository.save(cliente);
             model.addAttribute("successMessage", "Cliente " + savedCliente.getNome() + " cadastrado com sucesso!\n Código do cliente: [ " + savedCliente.getId() + " ] (anote o seu código de cliente para consultas futuras).");
-
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Erro ao cadastrar o cliente. Por favor, tente novamente.");
         }
@@ -55,20 +64,24 @@ public class ClienteController {
         return "cliente-consultar";
     }
 
-    @GetMapping("/clientes/cliente-calcularIMC")
+    @GetMapping("/clientes/calcularIMC")
     public String calcularIMC(
-            @RequestParam("clienteId") Long clienteId,
+            @RequestParam(value = "clienteId", required = false) Long clienteId,
             @RequestParam(value = "peso", required = false) Double peso,
             @RequestParam(value = "altura", required = false) Double altura,
             Model model) {
 
+        if (clienteId == null) {
+            model.addAttribute("errorMessage", "Código do cliente é obrigatório.");
+            return "cliente-imc";
+        }
+
         Cliente cliente = clienteRepository.findById(clienteId).orElse(null);
         if (cliente == null) {
             model.addAttribute("errorMessage", "Cliente não encontrado.");
-            return "cliente-calcularIMC";
+            return "cliente-imc";
         }
 
-        // Se peso e altura não forem fornecidos na requisição, use os valores do cliente
         if (peso == null) {
             peso = cliente.getPeso();
         }
@@ -78,10 +91,13 @@ public class ClienteController {
 
         if (peso == null || altura == null || altura == 0) {
             model.addAttribute("errorMessage", "Peso ou altura inválidos.");
-            return "cliente-consultar";
+            return "cliente-imc";
         }
+        double alturaEmMetros = altura / 100.0;
+        double imc = peso / (alturaEmMetros * alturaEmMetros); // Cálculo do IMC
 
-        double imc = peso / (altura * altura); // Cálculo do IMC
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        String imcFormatado = decimalFormat.format(imc);
 
         String classificacao;
         if (imc < 18.5) {
@@ -95,10 +111,9 @@ public class ClienteController {
         }
 
         model.addAttribute("cliente", cliente);
-        model.addAttribute("imc", imc);
+        model.addAttribute("imc", imcFormatado);
         model.addAttribute("classificacao", classificacao);
 
-        return "cliente-consultar";
+        return "cliente-imc";
     }
-
 }
