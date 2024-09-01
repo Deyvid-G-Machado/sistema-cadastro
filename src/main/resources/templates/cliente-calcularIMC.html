@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes Cadastrados</title>
+    <title>Cálculo IMC</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -112,55 +112,37 @@
 </head>
 <body>
 <div class="container">
-    <h1>Clientes Cadastrados</h1>
-    <form action="/clientes/buscar" method="get">
-        <label for="searchType">Consultar por:</label>
-        <select id="searchType" name="tipoBusca" onchange="mudarCampoBusca()">
-            <option value="id">ID</option>
-            <option value="nome">Nome</option>
-        </select>
-        <input type="number" id="searchInput" name="valorBusca" class="input-desing" placeholder="Digite o Codigo do Cliente" required>
-        <input type="submit" value="Buscar">
+    <h1>Cálculo IMC</h1>
+
+    <form action="/clientes/cliente-calcularIMC" method="get">
+        <input type="number" id="imcInput" name="clienteId" class="input-desing" placeholder="Digite o código do Cliente" required>
+        <input type="submit" value="Calcular IMC">
     </form>
+
     <table>
         <thead>
         <tr>
             <th>Código do cliente</th>
             <th>Nome</th>
-            <th>Idade</th>
-            <th>CPF</th>
-            <th>Altura</th>
-            <th>Peso</th>
-            <th>Renda Pessoal</th>
+            <th>IMC</th>
+            <th>Classificação</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="cliente : ${clientes}">
+        <tr th:if="${cliente != null}">
             <td th:text="${cliente.id}">Código</td>
             <td th:text="${cliente.nome}">Nome</td>
-            <td th:text="${cliente.idade}">Idade</td>
-            <td th:text="${cliente.cpf}">CPF</td>
-            <td th:text="${cliente.altura}">Altura</td>
-            <td th:text="${cliente.peso}">Peso</td>
-            <td th:text="${cliente.rendaPessoal}">Renda Pessoal</td>
+            <td th:text="${imc}">IMC</td>
+            <td th:text="${classificacao}">Classificação</td>
+        </tr>
+        <tr th:if="${errorMessage != null}">
+            <td colspan="4" th:text="${errorMessage}"></td>
         </tr>
         </tbody>
     </table>
+
     <a href="/">Voltar</a>
 </div>
-<script>
-    function mudarCampoBusca() {
-        const searchType = document.getElementById('searchType').value;
-        const searchInput = document.getElementById('searchInput');
 
-        if (searchType === 'id') {
-            searchInput.placeholder = 'Digite o ID';
-            searchInput.setAttribute('type', 'number');
-        } else {
-            searchInput.placeholder = 'Digite o Nome';
-            searchInput.setAttribute('type', 'text');
-        }
-    }
-</script>
 </body>
 </html>
