@@ -173,5 +173,12 @@
         }
     }
 </script>
+    <script>
+    document.getElementById('nome').addEventListener('input', function () {
+        this.value = this.value.replace(/\b\w/g, function (letra) {
+            return letra.toUpperCase();
+        });
+    });
+</script>
 </body>
 </html>
