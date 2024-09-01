@@ -58,8 +58,6 @@ public class ClienteController {
     @GetMapping("/clientes/cliente-calcularIMC")
     public String calcularIMC(
             @RequestParam("clienteId") Long clienteId,
-            @RequestParam(value = "peso", required = false) Double peso,
-            @RequestParam(value = "altura", required = false) Double altura,
             Model model) {
 
         Cliente cliente = clienteRepository.findById(clienteId).orElse(null);
@@ -68,18 +66,8 @@ public class ClienteController {
             return "cliente-calcularIMC";
         }
 
-        // Se peso e altura não forem fornecidos na requisição, use os valores do cliente
-        if (peso == null) {
-            peso = cliente.getPeso();
-        }
-        if (altura == null) {
-            altura = cliente.getAltura();
-        }
-
-        if (peso == null || altura == null || altura == 0) {
-            model.addAttribute("errorMessage", "Peso ou altura inválidos.");
-            return "cliente-consultar";
-        }
+        double peso = cliente.getPeso();
+        double altura = cliente.getAltura();
 
         double imc = peso / (altura * altura); // Cálculo do IMC
 
@@ -98,7 +86,8 @@ public class ClienteController {
         model.addAttribute("imc", imc);
         model.addAttribute("classificacao", classificacao);
 
-        return "cliente-consultar";
+        return "cliente-calcularIMC";
     }
+
 
 }
