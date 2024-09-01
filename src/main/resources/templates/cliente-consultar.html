@@ -74,7 +74,18 @@
             color: #fff;
             font-size: 16px;
         }
-
+        
+        .mudar-campo-busca {
+            width: calc(20% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            margin-bottom: 20px;
+            background-color: #3a3f47;
+            color: #fff;
+            font-size: 16px;
+        }
+        
         /* Estilo do botão de busca */
         input[type="submit"] {
             padding: 10px 20px;
@@ -115,11 +126,11 @@
     <h1>Clientes Cadastrados</h1>
     <form action="/clientes/buscar" method="get">
         <label for="searchType">Consultar por:</label>
-        <select id="searchType" name="tipoBusca" onchange="mudarCampoBusca()">
-            <option value="id">ID</option>
+        <select id="searchType" name="tipoBusca" class="mudar-campo-busca" onchange="mudarCampoBusca()">
+            <option value="id">Código</option>
             <option value="nome">Nome</option>
         </select>
-        <input type="number" id="searchInput" name="valorBusca" class="input-desing" placeholder="Digite o Codigo do Cliente" required>
+        <input type="number" id="searchInput" name="valorBusca" class="input-desing" placeholder="Digite o Codigo do Cliente" required min="1" oninput="validity.valid||(value='');">
         <input type="submit" value="Buscar">
     </form>
     <table>
@@ -161,6 +172,13 @@
             searchInput.setAttribute('type', 'text');
         }
     }
+</script>
+    <script>
+    document.getElementById('nome').addEventListener('input', function () {
+        this.value = this.value.replace(/\b\w/g, function (letra) {
+            return letra.toUpperCase();
+        });
+    });
 </script>
 </body>
 </html>
