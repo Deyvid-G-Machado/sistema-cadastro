@@ -16,6 +16,8 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         .container {
@@ -24,7 +26,8 @@
             border-radius: 10px;
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 700px;
+            max-width: 90%;
+            margin: 0 auto;
             box-sizing: border-box;
             overflow-x: auto;
         }
@@ -41,7 +44,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            table-layout: fixed;
+            table-layout: auto;
         }
 
         th, td {
@@ -49,7 +52,9 @@
             border: 1px solid #555;
             text-align: left;
             font-size: 16px;
-            word-wrap: break-word;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         th {
@@ -89,22 +94,53 @@
 
         .input-group {
             margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 5px;
             font-size: 16px;
         }
 
         .input-group input[type="text"] {
-            width: calc(40% - 22px);
+            width: 20%;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #555;
             background-color: #3a3f47;
             color: #fff;
             font-size: 16px;
+        }
+
+        .input-group input[type="submit"] {
+            padding: 10px 20px;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .input-group input[type="text"] {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .button {
+                width: 100%;
+            }
         }
     </style>
 </head>
