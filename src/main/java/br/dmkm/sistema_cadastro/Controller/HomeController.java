@@ -10,9 +10,6 @@ import java.util.List;
 
 @Controller
 public class HomeController {
-    @Autowired
-    private ClienteRepository clienteRepository;
-
     @GetMapping("/")
     public String index() {
         return "index";
