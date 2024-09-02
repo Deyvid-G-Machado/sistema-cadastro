@@ -22,4 +22,9 @@ public class HomeController {
     public String equipe() {
         return "equipe";
     }
+
+    @GetMapping("/sair")
+    public String sair() {
+        return "sair";
+    }
 }

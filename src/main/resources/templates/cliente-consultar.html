@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes Cadastrados</title>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -183,9 +184,9 @@
             <td th:text="${cliente.nome}">Nome</td>
             <td th:text="${cliente.idade}">Idade</td>
             <td th:text="${cliente.cpf}">CPF</td>
-            <td th:text="${#numbers.formatDecimal(cliente.altura, 0, '0')} + ' cm'">Altura</td>
-            <td th:text="${#numbers.formatDecimal(cliente.peso, 0, '0')} + ' kg'">Peso</td>
-            <td th:text="'R$ ' + ${#numbers.formatDecimal(cliente.rendaPessoal, 2, '0')}">Renda Pessoal</td>
+            <td th:text="${cliente.altura} + ' cm'">Altura</td>
+            <td th:text="${cliente.peso} + ' kg'">Peso</td>
+            <td th:text="'R$ ' + ${cliente.rendaPessoal}">Renda Pessoal</td>
         </tr>
         </tbody>
     </table>
