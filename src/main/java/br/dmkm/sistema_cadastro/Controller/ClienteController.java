@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.AttributedString;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -56,15 +57,22 @@ public class ClienteController {
 
     @GetMapping("/clientes/buscar")
     public String buscarClientes(@RequestParam("tipoBusca") String tipoBusca, @RequestParam("valorBusca") String valorBusca, Model model) {
-        List<Cliente> clientes;
+        List<Cliente> clientes = new ArrayList<>();
+
         if (tipoBusca.equals("id")) {
-            clientes = this.clienteRepository.buscarId(Integer.parseInt(valorBusca));
+            Cliente cliente = clienteRepository.findById(Long.parseLong(valorBusca)).orElse(null);
+            if (cliente != null) {
+                clientes.add(cliente);
+            }
         } else {
             clientes = clienteRepository.findByNomeContainingIgnoreCase(valorBusca);
         }
+
         model.addAttribute("clientes", clientes);
         return "cliente-consultar";
     }
+
+
 
     @GetMapping("/clientes/calcularIMC")
     public String calcularIMC(
