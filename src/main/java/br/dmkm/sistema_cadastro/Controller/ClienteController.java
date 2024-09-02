@@ -27,7 +27,7 @@ public class ClienteController {
 
     @PostMapping("/cadastrar-cliente/cadastrar")
     public String criar(Cliente cliente, Model model) {
-        if (cliente.getPeso() == null || cliente.getPeso() <= 0 ||  cliente.getAltura() == null || cliente.getAltura() <= 0) {
+        if (cliente.getPeso() == null || cliente.getPeso() <= 0 || cliente.getAltura() == null || cliente.getAltura() <= 0) {
             model.addAttribute("errorMessage", "Altura e Peso precisam ser diferentes de zero(0).");
             return "cliente-cadastro";
         }
@@ -37,6 +37,8 @@ public class ClienteController {
         }
 
         try {
+            // Remove espaços extras do nome
+            cliente.setNome(cliente.getNome().trim().replaceAll("\\s+", " "));
             Cliente savedCliente = clienteRepository.save(cliente);
             model.addAttribute("successMessage", "Cliente " + savedCliente.getNome() + " cadastrado com sucesso!\n Código do cliente: [ " + savedCliente.getId() + " ] (anote o seu código de cliente para consultas futuras).");
         } catch (Exception e) {
