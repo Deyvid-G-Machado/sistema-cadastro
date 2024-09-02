@@ -9,12 +9,10 @@
             font-family: Arial, sans-serif;
             background-color: #282c34;
             color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            min-height: 100vh;
         }
 
         .container {
@@ -23,7 +21,8 @@
             border-radius: 10px;
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 700px;
+            max-width: 90%;
+            margin: 0 auto;
             box-sizing: border-box;
             overflow-x: auto;
         }
@@ -40,7 +39,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            table-layout: fixed;
+            table-layout: auto;
         }
 
         th, td {
@@ -64,7 +63,7 @@
         }
 
         /* Estilo do campo de busca */
-        .input-desing {
+        .input-design {
             width: calc(40% - 22px);
             padding: 10px;
             border-radius: 5px;
@@ -74,9 +73,9 @@
             color: #fff;
             font-size: 16px;
         }
-        
+
         .mudar-campo-busca {
-            width: calc(20% - 22px);
+            width: calc(10% - 22px);
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #555;
@@ -85,7 +84,7 @@
             color: #fff;
             font-size: 16px;
         }
-        
+
         /* Estilo do botão de busca */
         input[type="submit"] {
             padding: 10px 20px;
@@ -119,18 +118,51 @@
             background-color: #61dafb;
             color: #282c34;
         }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .input-design, .mudar-campo-busca {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            input[type="submit"] {
+                width: 100%;
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
+
+            a {
+                width: 100%;
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Clientes Cadastrados</h1>
     <form action="/clientes/buscar" method="get">
-        <label for="searchType">Consultar por:</label>
+        Consultar por:
         <select id="searchType" name="tipoBusca" class="mudar-campo-busca" onchange="mudarCampoBusca()">
             <option value="id">Código</option>
             <option value="nome">Nome</option>
         </select>
-        <input type="number" id="searchInput" name="valorBusca" class="input-desing" placeholder="Digite o Codigo do Cliente" required min="1" oninput="validity.valid||(value='');">
+        <input type="number" id="searchInput" name="valorBusca" class="input-design" placeholder="Digite o Código do Cliente" required min="1" oninput="validity.valid||(value='');">
         <input type="submit" value="Buscar">
     </form>
     <table>
@@ -151,9 +183,9 @@
             <td th:text="${cliente.nome}">Nome</td>
             <td th:text="${cliente.idade}">Idade</td>
             <td th:text="${cliente.cpf}">CPF</td>
-            <td th:text="${cliente.altura}">Altura</td>
-            <td th:text="${cliente.peso}">Peso</td>
-            <td th:text="${cliente.rendaPessoal}">Renda Pessoal</td>
+            <td th:text="${#numbers.formatDecimal(cliente.altura, 0, '0')} + ' cm'">Altura</td>
+            <td th:text="${#numbers.formatDecimal(cliente.peso, 0, '0')} + ' kg'">Peso</td>
+            <td th:text="'R$ ' + ${#numbers.formatDecimal(cliente.rendaPessoal, 2, '0')}">Renda Pessoal</td>
         </tr>
         </tbody>
     </table>
@@ -165,20 +197,13 @@
         const searchInput = document.getElementById('searchInput');
 
         if (searchType === 'id') {
-            searchInput.placeholder = 'Digite o ID';
+            searchInput.placeholder = 'Digite o Código';
             searchInput.setAttribute('type', 'number');
         } else {
             searchInput.placeholder = 'Digite o Nome';
             searchInput.setAttribute('type', 'text');
         }
     }
-</script>
-    <script>
-    document.getElementById('nome').addEventListener('input', function () {
-        this.value = this.value.replace(/\b\w/g, function (letra) {
-            return letra.toUpperCase();
-        });
-    });
 </script>
 </body>
 </html>

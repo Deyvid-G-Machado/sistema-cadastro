@@ -109,21 +109,21 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <form method="post" action="/cadastrar-cliente/cadastrar">
+    <form method="post" action="/cadastrar-cliente/cadastrar" onsubmit="return validarFormulario()">
         <label for="nome">Nome Completo</label>
         <input type="text" id="nome" name="nome" required>
 
         <label for="idade">Idade</label>
-        <input type="number" id="idade" name="idade" required>
+        <input type="number" id="idade" name="idade" required min="1" oninput="validity.valid||(value='');">
 
         <label for="CPF">CPF</label>
         <input type="text" id="cpf" name="cpf" required>
 
         <label for="altura">Altura (em cm)</label>
-        <input type="number" id="altura" placeholder="cm" name="altura" required>
+        <input type="number" id="altura" placeholder="cm" name="altura" required min="1" oninput="validity.valid||(value='');">
 
         <label for="peso">Peso (em kg)</label>
-        <input type="number" id="peso" placeholder="kg" name="peso" required>
+        <input type="number" id="peso" placeholder="kg" name="peso" required min="1" oninput="validity.valid||(value='');">
 
         <label for="rendaPessoal">Renda Pessoal</label>
         <input type="text" id="rendaPessoal" placeholder="R$" name="rendaPessoal" required>
@@ -135,12 +135,40 @@
 
 </div>
 <script>
+    function formatNome(nome) {
+        return nome
+            .replace(/[^\p{L}\s\-]/gu, '')  // Permite letras, espaços e traços
+            .replace(/^\-+|\-+$/g, '')      // Remove traços no início e no fim
+            .replace(/\-+\s|\s\-+/g, ' ')   // Remove traços seguidos de espaço e espaços seguidos de traços
+            .replace(/\s{2,}/g, ' ')        // Remove múltiplos espaços em branco
+            .toLowerCase();                 // Converte tudo para minúsculas antes de capitalizar
+    }
+
+    function capitalizeNome(nome) {
+        return nome
+            .replace(/\b\w/g, function (letra) {
+                return letra.toUpperCase();
+            });
+    }
+
+    document.getElementById('nome').addEventListener('input', function () {
+        let nome = this.value;
+        // Formata o nome removendo caracteres indesejados e capitaliza a primeira letra de cada palavra
+        this.value = capitalizeNome(formatNome(nome));
+    });
+
+    document.getElementById('nome').addEventListener('input', function () {
+        let nome = this.value;
+        // Formata o nome removendo caracteres indesejados e capitaliza a primeira letra de cada palavra
+        this.value = capitalizeNome(formatNome(nome));
+    });
+
     document.getElementById('cpf').addEventListener('input', function (e) {
         let value = e.target.value;
-        value = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+        value = value.replace(/\D/g, '');
 
         if (value.length > 11) {
-            value = value.slice(0, 11); // Limita a 11 dígitos
+            value = value.slice(0, 11);
         }
 
         value = value.replace(/^(\d{3})(\d)/, '$1.$2'); // Adiciona o primeiro ponto
@@ -148,6 +176,20 @@
         value = value.replace(/\.(\d{3})(\d{1,2})$/, '.$1-$2'); // Adiciona o traço
         e.target.value = value;
     });
+
+    // Validação de formulário para remover espaços em branco no início e no final
+    function validarFormulario() {
+        const nome = document.getElementById('nome');
+        const cpf = document.getElementById('cpf');
+        const rendaPessoal = document.getElementById('rendaPessoal');
+
+        // Remove espaços em branco no início e no final
+        nome.value = nome.value.trim();
+        cpf.value = cpf.value.trim();
+        rendaPessoal.value = rendaPessoal.value.trim();
+
+        return true;
+    }
 </script>
 </body>
 </html>
